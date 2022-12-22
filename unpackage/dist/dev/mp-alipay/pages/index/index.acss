@@ -1,0 +1,40 @@
+
+.content {
+	position: relative;
+	background: #1e1d22;
+	height: 100vh;
+}
+.transparent {
+	background: transparent;
+	border: none;
+}
+.input_box{
+	text-align: center;
+	margin-top: 60rpx;
+}
+.input{
+	width: 100rpx;
+	height: 50rpx;
+}
+.btn {
+	position: absolute;
+	bottom: 200rpx;
+	width: 600rpx;
+	left: 50%;
+	-webkit-transform: translate(-50%, 50%);
+	        transform: translate(-50%, 50%);
+}
+.bgbtn {
+	color: #2AB675;
+	border: 1rpx solid #2AB675;
+	border-radius: 40rpx;
+	line-height: 2;
+	text-align: center;
+	margin: 0 10rpx;
+	line-height: 2.6;
+	font-size: 30rpx;
+	background-image: linear-gradient(to right, #2FE890, #4FE0F1);
+	border: 0;
+	color: #333;
+}
+

@@ -1,0 +1,1 @@
+<view class="content"><view class="input_box"><input class="transparent input" type="text" data-event-opts="{{[['input',[['__set_model',['','testid','$event',[]]]]]]}}" value="{{testid}}" onInput="__e"/></view><view data-event-opts="{{[['tap',[['back',['$event']]]]]}}" class="btn bgbtn" onTap="__e">返回App</view></view>

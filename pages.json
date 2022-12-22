@@ -1,0 +1,17 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "支付"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "支付",
+		"navigationBarBackgroundColor": "#1e1d22",
+		"backgroundColor": "#1e1d22"
+	},
+	"uniIdRouter": {}
+}
