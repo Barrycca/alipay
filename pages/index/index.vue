@@ -1,12 +1,15 @@
 <template>
 	<view class="content">
-		<view class="input_box">
-			<input type="text" class="transparent input" v-model="testid" />
-		</view>
-		
+		<!-- 	<view class="input_box">
+			<input type="text" class="transparent input" />
+		</view> -->
 
-		<view class="btn bgbtn" @click="back">
+
+		<!-- <view class="btn bgbtn">
 			返回App
+		</view> -->
+		<view class="version">
+			v0.04
 		</view>
 	</view>
 </template>
@@ -18,7 +21,7 @@
 				userId: "",
 				goodsid: "",
 				amount: "",
-				testid:""
+				testid: ""
 			}
 		},
 		onLoad(option) {
@@ -26,6 +29,7 @@
 			console.log(option)
 			this.goodsid = option.goodsid;
 			this.amount = option.amount;
+			this.outOrderNo = option.outOrderNo;
 		},
 
 		methods: {
@@ -33,6 +37,28 @@
 			// 获取用户authCode
 			alilogin() {
 				let _this = this
+				//#ifdef MP-WEIXIN
+				wx.login({
+					success(res) {
+						var code = res.code;
+						console.log("code:" + code);
+						var methodName = 'Login.getUnionid';
+						var data = {
+							"code": code
+						};
+						// util.requestData(methodName, data, function(code, msg, info) {
+						// 	//console.log(info);
+						// 	openid = info[0].openid;
+						// 	app.globalData.openid = info[0].openid;
+						// 	//将openid存入缓存
+						// 	wx.setStorageSync('openid', openid);
+						// 	_this.wxMiniPay(id, coin, money, openid);
+						// });
+					}
+
+				})
+				//#endif
+				//#ifdef MP-MP-ALIPAY
 				my.getAuthCode({
 					scopes: 'auth_user',
 					success: (res2) => {
@@ -45,11 +71,14 @@
 						// 用户取消授权
 					},
 				});
+				//#endif
+
 			},
 
 
 			// 支付宝登录
 			alipaylogin(code) {
+				//#ifdef MP-MP-ALIPAY
 				this.http({
 					url: '/ali/get/userId',
 					method: 'POST',
@@ -80,20 +109,24 @@
 						})
 					}
 				})
+				//#endif
 			},
 			//下单
 			order() {
 				if (!this.amount && !this.goodsid) {
 					return
 				}
+				//#ifdef MP-MP-ALIPAY
 				this.http({
 					url: '/pay/anonymity/aggregatePay',
 					method: 'POST',
 					isjson: true,
 					data: {
-						"amount": this.amount,
-						"goodsName": this.goodsid,
-						"openid": this.userId
+						amount: this.amount,
+						goodsName: this.goodsid,
+						outOrderNo: this.outOrderNo,
+						openid: this.userId,
+						callBackUrl: "https://ysys.szcaee.cn/api/notice/baofu_pay"
 					},
 					success: res => {
 						console.log(res)
@@ -101,45 +134,58 @@
 							let result = JSON.parse(res.message)
 							console.log(result)
 							this.toPay(result.body)
-
 						} else {
 							// console.log('MP-ALIPAY 登录失败！')
 							uni.showToast({
 								title: res.message,
 								icon: 'error'
 							})
+							console.log('cancel')
 						}
 					},
 					fail: err => {
 						// console.log(err, 'MP-ALIPAY login err')
 						// console.log('登录失败！')
+
 						uni.showToast({
 							title: err,
 							icon: 'error'
 						})
 					}
 				})
+				//#endif
 			},
 			//唤起支付
 			toPay(tradeNo) {
+				//#ifdef MP-MP-ALIPAY
 				my.tradePay({
 					// 调用统一收单交易创建接口（alipay.trade.create），获得返回字段支付宝交易号trade_no
 					tradeNO: tradeNo,
 					success: (res) => {
-						my.alert({
-							content: JSON.stringify(res),
-						});
+
+						console.log(res.resultCode)
+						if (res.resultCode == 9000) {
+							uni.showToast({
+								title: '支付成功！'
+							})
+						}
+						if (res.resultCode == 6001) {
+							uni.showToast({
+								title: '取消支付！'
+							})
+						}
 					},
 					fail: (res) => {
-						my.alert({
-							content: JSON.stringify(res),
-						});
+						// my.alert({
+						// 	content: JSON.stringify(res),
+						// });
 					}
 				});
+				//#endif
 			},
 			//返回APP
-			back(){
-				if(this.testid){
+			back() {
+				if (this.testid) {
 					this.goodsid = this.testid;
 					this.amount = this.testid;
 					this.order()
@@ -156,15 +202,24 @@
 		height: 100vh;
 	}
 
+	.version {
+		position: absolute;
+		bottom: 100rpx;
+		right: 100rpx;
+		color: #aaa;
+	}
+
 	.transparent {
 		background: transparent;
 		border: none;
 	}
-	.input_box{
+
+	.input_box {
 		text-align: center;
 		margin-top: 60rpx;
 	}
-	.input{
+
+	.input {
 		width: 100rpx;
 		height: 50rpx;
 	}

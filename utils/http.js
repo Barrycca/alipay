@@ -1,4 +1,4 @@
-const baseUrl = 'https://middleground-backend-pay.test2.wys168.cn' // 全局地址
+const baseUrl = 'https://middle.szcaee.cn/pay' // 全局地址
  
 import store from '../store/index.js'// 用来记录登录状态，统一封装token
  

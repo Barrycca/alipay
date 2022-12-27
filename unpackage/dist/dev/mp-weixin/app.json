@@ -1,0 +1,13 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "支付",
+    "navigationBarBackgroundColor": "#1e1d22",
+    "backgroundColor": "#1e1d22"
+  },
+  "usingComponents": {}
+}
