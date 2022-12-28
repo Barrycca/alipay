@@ -6,7 +6,7 @@
   },
   "setting": {
     "urlCheck": false,
-    "es6": false,
+    "es6": true,
     "postcss": false,
     "minified": false,
     "newFeature": true,
@@ -19,7 +19,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.27.3",
-  "appid": "touristappid",
+  "appid": "wx1bb52617d7f4f625",
   "projectname": "wjspay",
   "condition": {},
   "editorSetting": {

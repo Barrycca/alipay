@@ -42,10 +42,8 @@
 					success(res) {
 						var code = res.code;
 						console.log("code:" + code);
-						var methodName = 'Login.getUnionid';
-						var data = {
-							"code": code
-						};
+
+						_this.login(code)
 						// util.requestData(methodName, data, function(code, msg, info) {
 						// 	//console.log(info);
 						// 	openid = info[0].openid;
@@ -58,13 +56,13 @@
 
 				})
 				//#endif
-				//#ifdef MP-MP-ALIPAY
+				//#ifdef MP-ALIPAY
 				my.getAuthCode({
 					scopes: 'auth_user',
 					success: (res2) => {
 						console.log(res2, 'res.authCode')
 						// return
-						_this.alipaylogin(res2.authCode)
+						_this.login(res2.authCode)
 						// console.log(res2,'res2') , userInfo.avatar, userInfo.nickName || '支付宝用户'
 					},
 					fail: (resfail) => {
@@ -77,8 +75,8 @@
 
 
 			// 支付宝登录
-			alipaylogin(code) {
-				//#ifdef MP-MP-ALIPAY
+			login(code) {
+				//#ifdef MP-ALIPAY
 				this.http({
 					url: '/ali/get/userId',
 					method: 'POST',
@@ -110,13 +108,45 @@
 					}
 				})
 				//#endif
+				//#ifdef MP-WEIXIN
+				this.http({
+					url: '/getopenid',
+					method: 'GET',
+					data: {
+						code
+					},
+					success: res => {
+						console.log(res)
+						if (res.status === 200) {
+							// 存token
+							this.$store.commit('login', res.data)
+							this.userId = res.data;
+							this.order()
+						} else {
+							// console.log('MP-ALIPAY 登录失败！')
+							uni.showToast({
+								title: '登录失败！',
+								icon: 'error'
+							})
+						}
+					},
+					fail: err => {
+						// console.log(err, 'MP-ALIPAY login err')
+						// console.log('登录失败！')
+						uni.showToast({
+							title: '登录失败！',
+							icon: 'error'
+						})
+					}
+				})
+				//#endif
 			},
 			//下单
 			order() {
 				if (!this.amount && !this.goodsid) {
 					return
 				}
-				//#ifdef MP-MP-ALIPAY
+				
 				this.http({
 					url: '/pay/anonymity/aggregatePay',
 					method: 'POST',
@@ -126,6 +156,12 @@
 						goodsName: this.goodsid,
 						outOrderNo: this.outOrderNo,
 						openid: this.userId,
+						//#ifdef MP-ALIPAY
+						paidType:" ALIPAY_ALXCX",
+						//#endif
+						//#ifdef MP-WEIXIN
+						paidType:" WECHAT_JSXCX",
+						//#endif
 						callBackUrl: "https://ysys.szcaee.cn/api/notice/baofu_pay"
 					},
 					success: res => {
@@ -153,11 +189,11 @@
 						})
 					}
 				})
-				//#endif
+				
 			},
 			//唤起支付
 			toPay(tradeNo) {
-				//#ifdef MP-MP-ALIPAY
+				//#ifdef MP-ALIPAY
 				my.tradePay({
 					// 调用统一收单交易创建接口（alipay.trade.create），获得返回字段支付宝交易号trade_no
 					tradeNO: tradeNo,
@@ -182,6 +218,19 @@
 					}
 				});
 				//#endif
+				//#ifdef MP-WEIXIN
+				wx.requestPayment({
+					"timeStamp": "",
+					"nonceStr": "",
+					"package": "",
+					"signType": "MD5",
+					"paySign": "",
+					"success": function(res) {},
+					"fail": function(res) {},
+					"complete": function(res) {}
+				})
+				//#endif
+
 			},
 			//返回APP
 			back() {

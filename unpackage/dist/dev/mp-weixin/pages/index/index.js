@@ -135,7 +135,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(uni) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -181,10 +181,7 @@ var _default = {
         success: function success(res) {
           var code = res.code;
           console.log("code:" + code);
-          var methodName = 'Login.getUnionid';
-          var data = {
-            "code": code
-          };
+          _this.login(code);
           // util.requestData(methodName, data, function(code, msg, info) {
           // 	//console.log(info);
           // 	openid = info[0].openid;
@@ -197,15 +194,96 @@ var _default = {
       });
     },
     // 支付宝登录
-    alipaylogin: function alipaylogin(code) {},
+    login: function login(code) {
+      var _this2 = this;
+      this.http({
+        url: '/getopenid',
+        method: 'GET',
+        data: {
+          code: code
+        },
+        success: function success(res) {
+          console.log(res);
+          if (res.status === 200) {
+            // 存token
+            _this2.$store.commit('login', res.data);
+            _this2.userId = res.data;
+            _this2.order();
+          } else {
+            // console.log('MP-ALIPAY 登录失败！')
+            uni.showToast({
+              title: '登录失败！',
+              icon: 'error'
+            });
+          }
+        },
+        fail: function fail(err) {
+          // console.log(err, 'MP-ALIPAY login err')
+          // console.log('登录失败！')
+          uni.showToast({
+            title: '登录失败！',
+            icon: 'error'
+          });
+        }
+      });
+    },
     //下单
     order: function order() {
+      var _this3 = this;
       if (!this.amount && !this.goodsid) {
         return;
       }
+      this.http({
+        url: '/pay/anonymity/aggregatePay',
+        method: 'POST',
+        isjson: true,
+        data: {
+          amount: this.amount,
+          goodsName: this.goodsid,
+          outOrderNo: this.outOrderNo,
+          openid: this.userId,
+          paidType: " WECHAT_JSXCX",
+          callBackUrl: "https://ysys.szcaee.cn/api/notice/baofu_pay"
+        },
+        success: function success(res) {
+          console.log(res);
+          if (res.status === 200) {
+            var result = JSON.parse(res.message);
+            console.log(result);
+            _this3.toPay(result.body);
+          } else {
+            // console.log('MP-ALIPAY 登录失败！')
+            uni.showToast({
+              title: res.message,
+              icon: 'error'
+            });
+            console.log('cancel');
+          }
+        },
+        fail: function fail(err) {
+          // console.log(err, 'MP-ALIPAY login err')
+          // console.log('登录失败！')
+
+          uni.showToast({
+            title: err,
+            icon: 'error'
+          });
+        }
+      });
     },
     //唤起支付
-    toPay: function toPay(tradeNo) {},
+    toPay: function toPay(tradeNo) {
+      wx.requestPayment({
+        "timeStamp": "",
+        "nonceStr": "",
+        "package": "",
+        "signType": "MD5",
+        "paySign": "",
+        "success": function success(res) {},
+        "fail": function fail(res) {},
+        "complete": function complete(res) {}
+      });
+    },
     //返回APP
     back: function back() {
       if (this.testid) {
@@ -217,6 +295,7 @@ var _default = {
   }
 };
 exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
