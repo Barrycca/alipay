@@ -4,21 +4,21 @@
 	background: #1e1d22;
 	height: 100vh;
 }
-.version{
+.version {
 	position: absolute;
-	bottom:100rpx;
-	right:100rpx;
+	bottom: 100rpx;
+	right: 100rpx;
 	color: #aaa;
 }
 .transparent {
 	background: transparent;
 	border: none;
 }
-.input_box{
+.input_box {
 	text-align: center;
 	margin-top: 60rpx;
 }
-.input{
+.input {
 	width: 100rpx;
 	height: 50rpx;
 }

@@ -3,5 +3,18 @@
   "projectname": "wjspay",
   "setting": {
     "compileHotReLoad": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "",
+          "pathName": "pages/index/index",
+          "query": "amount=0.1&goodsid=“测试0.1”&openid=&outOrderNo=wx167228540254027821",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

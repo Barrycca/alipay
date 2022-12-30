@@ -21,7 +21,8 @@
 				userId: "",
 				goodsid: "",
 				amount: "",
-				testid: ""
+				testid: "",
+				loginNo:""
 			}
 		},
 		onLoad(option) {
@@ -30,6 +31,7 @@
 			this.goodsid = option.goodsid;
 			this.amount = option.amount;
 			this.outOrderNo = option.outOrderNo;
+			this.loginNo = option.loginNo;
 		},
 
 		methods: {
@@ -156,11 +158,12 @@
 						goodsName: this.goodsid,
 						outOrderNo: this.outOrderNo,
 						openid: this.userId,
+						loginNo:this.loginNo,
 						//#ifdef MP-ALIPAY
-						paidType:" ALIPAY_ALXCX",
+						paidType:"ALIPAY_ALXCX",
 						//#endif
 						//#ifdef MP-WEIXIN
-						paidType:" WECHAT_JSXCX",
+						paidType:"WECHAT_JSXCX",
 						//#endif
 						callBackUrl: "https://ysys.szcaee.cn/api/notice/baofu_pay"
 					},
@@ -219,12 +222,9 @@
 				});
 				//#endif
 				//#ifdef MP-WEIXIN
+				console.log(JSON.parse(tradeNo))
 				wx.requestPayment({
-					"timeStamp": "",
-					"nonceStr": "",
-					"package": "",
-					"signType": "MD5",
-					"paySign": "",
+					...JSON.parse(tradeNo),
 					"success": function(res) {},
 					"fail": function(res) {},
 					"complete": function(res) {}

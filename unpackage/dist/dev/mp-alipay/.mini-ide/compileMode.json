@@ -3,7 +3,7 @@
     {
       "title": "pages/index/index",
       "page": "pages/index/index",
-      "pageQuery": "outOrderNo=wx167204238229093694&amount=0.1&goodsid=测试"
+      "pageQuery": "loginNo=15622174004&outOrderNo=wx167238907175411183&amount=0.1&goodsid=测试"
     }
   ]
 }

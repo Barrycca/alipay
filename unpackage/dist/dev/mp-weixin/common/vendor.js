@@ -732,8 +732,8 @@ function populateParameters(result) {
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.6.14",
-    uniRuntimeVersion: "3.6.14",
+    uniCompileVersion: "3.6.15",
+    uniRuntimeVersion: "3.6.15",
     uniPlatform: undefined || "mp-weixin",
     deviceBrand: deviceBrand,
     deviceModel: model,
@@ -9376,9 +9376,9 @@ internalMixin(Vue);
 
 /***/ }),
 /* 25 */
-/*!********************************!*\
-  !*** E:/ali/alipay/pages.json ***!
-  \********************************/
+/*!****************************************************!*\
+  !*** E:/workspace/project/新建文件夹/alipay/pages.json ***!
+  \****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9519,9 +9519,9 @@ function normalizeComponent (
 
 /***/ }),
 /* 32 */
-/*!***********************************!*\
-  !*** E:/ali/alipay/utils/http.js ***!
-  \***********************************/
+/*!*******************************************************!*\
+  !*** E:/workspace/project/新建文件夹/alipay/utils/http.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9613,9 +9613,9 @@ module.exports = function (params) {
 
 /***/ }),
 /* 33 */
-/*!************************************!*\
-  !*** E:/ali/alipay/store/index.js ***!
-  \************************************/
+/*!********************************************************!*\
+  !*** E:/workspace/project/新建文件夹/alipay/store/index.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
