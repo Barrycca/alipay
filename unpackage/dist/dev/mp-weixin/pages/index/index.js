@@ -203,7 +203,7 @@ var _default = {
     login: function login(code) {
       var _this2 = this;
       this.http({
-        url: '/getopenid',
+        url: '/open_api/getopenid',
         method: 'GET',
         data: {
           code: code
@@ -240,7 +240,7 @@ var _default = {
         return;
       }
       this.http({
-        url: '/pay/anonymity/aggregatePay',
+        url: '/pay/open_api/anonymity/aggregatePay',
         method: 'POST',
         isjson: true,
         data: {

@@ -234,7 +234,7 @@ var _default = {
         return;
       }
       this.http({
-        url: '/pay/anonymity/aggregatePay',
+        url: '/pay/open_api/anonymity/aggregatePay',
         method: 'POST',
         isjson: true,
         data: {

@@ -9,7 +9,7 @@
 			返回App
 		</view> -->
 		<view class="version">
-			v0.04
+			v0.05
 		</view>
 	</view>
 </template>
@@ -112,7 +112,7 @@
 				//#endif
 				//#ifdef MP-WEIXIN
 				this.http({
-					url: '/getopenid',
+					url: '/open_api/getopenid',
 					method: 'GET',
 					data: {
 						code
@@ -150,7 +150,7 @@
 				}
 				
 				this.http({
-					url: '/pay/anonymity/aggregatePay',
+					url: '/pay/open_api/anonymity/aggregatePay',
 					method: 'POST',
 					isjson: true,
 					data: {
