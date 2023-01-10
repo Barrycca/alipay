@@ -26,8 +26,13 @@
 			}
 		},
 		onLoad(option) {
+			uni.showLoading({
+				title: '订单支付中',
+				mask: true
+			});
 			this.alilogin()
 			console.log(option)
+			
 			this.goodsid = option.goodsid;
 			this.amount = option.amount;
 			this.outOrderNo = option.outOrderNo;
@@ -226,8 +231,12 @@
 				wx.requestPayment({
 					...JSON.parse(tradeNo),
 					"success": function(res) {},
-					"fail": function(res) {},
-					"complete": function(res) {}
+					"fail": function(res) {
+						uni.hideLoading();
+					},
+					"complete": function(res) {
+						uni.hideLoading();
+					}
 				})
 				//#endif
 

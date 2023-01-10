@@ -172,6 +172,10 @@ var _default = {
     };
   },
   onLoad: function onLoad(option) {
+    uni.showLoading({
+      title: '订单支付中',
+      mask: true
+    });
     this.alilogin();
     console.log(option);
     this.goodsid = option.goodsid;
@@ -283,8 +287,12 @@ var _default = {
       console.log(JSON.parse(tradeNo));
       wx.requestPayment(_objectSpread(_objectSpread({}, JSON.parse(tradeNo)), {}, {
         "success": function success(res) {},
-        "fail": function fail(res) {},
-        "complete": function complete(res) {}
+        "fail": function fail(res) {
+          uni.hideLoading();
+        },
+        "complete": function complete(res) {
+          uni.hideLoading();
+        }
       }));
     },
     //返回APP
